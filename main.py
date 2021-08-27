@@ -15,6 +15,8 @@ def get_word_count(argument):
     word_count = len(str(paragraph_list).split())
     return word_count
 
+st.title("***Word Counter***", anchor=None)
+
 url_input = st.file_uploader(label="Upload a .TXT file with 50 URLs only. No HEADERS.", type='txt', accept_multiple_files=False)
 
 if url_input:
