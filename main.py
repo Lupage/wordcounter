@@ -26,6 +26,8 @@ if url_input:
   	word_count = [get_word_count(element) for element in url_list]
   	results = list(zip(url_list, word_count))
   	df = pd.DataFrame(results)
+    df.columns = ["URL", "Word Count"]
+    df.index = df.index + 1
   	st.table(df)
   	csv = df.to_csv()
   	b64 = base64.b64encode(csv.encode()).decode()
