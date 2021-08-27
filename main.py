@@ -5,7 +5,7 @@ import pandas as pd
 import requests
 import base64
 
-st.set_page_config(layout="wide", page_title="Word Counter")
+st.set_page_config(page_title="Word Counter")
 
 def get_word_count(argument):
     full_url = argument
