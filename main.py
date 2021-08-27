@@ -31,12 +31,11 @@ if url_input:
     
     if len(url_list) > 50:
         st.warning("Upload up to 50 URLs only")
-        else:
-            #Build word count list and streamlit progress bar
-            for element in url_list:
-                word_count.append(get_word_count(element))
-                count += 1 / len(url_list)
-                my_bar.progress(round(count,3))
+    else:
+        for element in url_list:
+            word_count.append(get_word_count(element))
+            count += 1 / len(url_list)
+            my_bar.progress(round(count,3))
                 
         #DataFrame creation
         results = list(zip(url_list, word_count))
