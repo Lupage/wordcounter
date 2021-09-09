@@ -1,44 +1,33 @@
-from bs4 import BeautifulSoup
-from io import StringIO 
-import streamlit as st
+from classes import Page
+import base64
 import pandas as pd
 import requests
-import base64
+import streamlit as st
 
 #Streamlit start design
 st.set_page_config(page_title="Word Counter")
 st.title("***Word Counter***", anchor=None)
 
-#Word count function
-def get_word_count(argument):
-    full_url = argument
-    page_source = requests.get(full_url).text
-    soup = BeautifulSoup(page_source, 'lxml')
-    paragraph_list = [element.text for element in soup.find_all('p')]
-    word_count = len(str(paragraph_list).split())
-    return word_count
-
 #Variables
-url_input = st.file_uploader(label="Upload a .TXT file with up to 50 URLs only. No HEADERS.", type='txt', accept_multiple_files=False)
+url_input = st.text_area("Enter full URLs here. Maximum of 60 URLs. (ex. https://currentdomain.com/current-page)", height=200)
+url_input = url_input.split()
+submit_button = st.button(label='Get word count')
 count = 0
 my_bar = st.progress(count)
 word_count = []
 
 #Streamlit logic
-if url_input:
-    bytes_data = StringIO(url_input.getvalue().decode("utf-8"))
-    url_list = [element.strip() for element in bytes_data]
-    
-    if len(url_list) > 50:
-        st.warning("Upload up to 50 URLs only")
+if submit_button:    
+    if len(url_input) > 60:
+        st.warning("Enter up to 60 URLs only")
     else:
-        for element in url_list:
-            word_count.append(get_word_count(element))
-            count += 1 / len(url_list)
+        for element in url_input:
+            word_count.append(Page(element).word_count())
+            count += 1 / len(url_input)
             my_bar.progress(round(count,3))
                 
         #DataFrame creation
-        results = list(zip(url_list, word_count))
+        results = list(zip(url_input, word_count))
         df = pd.DataFrame(results)
         df.columns = ["URL", "Word Count"]
         df.index = df.index + 1
