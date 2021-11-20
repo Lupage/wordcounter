@@ -17,7 +17,7 @@ class Page:
         meta_description = soup.find('meta',attrs={'name':'description'})["content"]
         return meta_description
     
-    def get_word_count(argument):
+    def word_count(argument):
         full_url = argument
         page_source = requests.get(full_url).text
         soup = BeautifulSoup(page_source, 'lxml')
