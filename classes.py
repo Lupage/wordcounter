@@ -25,7 +25,7 @@ class Page:
         soup = BeautifulSoup(page_source, 'html.parser')
         paragraph_list = [element.text for element in soup.find_all('p')]
         list_list = [element.text for element in soup.find_all('li')]
-        word_count = len(str(paragraph_list).split()) + len(str(list_list).split())
+        word_count = len(str(paragraph_list).split())
         return word_count
 
     def content(self):
